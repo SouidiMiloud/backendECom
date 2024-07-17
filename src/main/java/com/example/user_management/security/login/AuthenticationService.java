@@ -34,28 +34,28 @@ public class AuthenticationService {
     public ResponseEntity<Map<String, String>> register(RegistrationRequest request) throws IOException {
 
         Map<String, String> response = new HashMap<>();
-        Optional<UserAccount> userOpt = userRepo.findByEmail(request.getEmail());
+        Optional<UserAccount> userOpt = userRepo.findByUsername(request.getUsername());
         if(userOpt.isPresent()) {
-            response.put("error", request.getEmail() + " already exist.");
+            response.put("error", request.getUsername() + " already exist.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-
         String password = request.getPassword();
-        if(!password.equals(request.getConfirmPassword())){
+        if(!password.equals(request.getRepeatPassword())){
             response.put("error", "passwords don't match");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
         password = passwordEncoder.encode(password);
         UserAccountRole role = UserAccountRole.NORMALUSER;
-        if(!request.getRole().isEmpty())
+        if(request.getRole() != null)
             role = UserAccountRole.valueOf(request.getRole());
-        UserAccount user = new UserAccount(request.getFirstname(), request.getLastname(), request.getEmail(), password, role);
+        UserAccount user = new UserAccount(request.getFirstname(), request.getLastname(), request.getUsername(), password, role);
         userRepo.save(user);
         response.put("success", "saved successfully");
         return ResponseEntity.ok().body(response);
     }
     public ResponseEntity<?> login(Credentials credentials){
+
         try{
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

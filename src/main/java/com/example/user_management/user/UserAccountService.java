@@ -26,13 +26,11 @@ public class UserAccountService {
         return ResponseEntity.ok().body(users);
     }
 
-    public ResponseEntity<Map<String, String>> updateUser(UserAccount userAccount) {
-        Map<String, String> response = new HashMap<>();
-        if(userAccount.getUserRole().equals(UserAccountRole.NORMALUSER)) {
-            response.put("error", "not authorized");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    public void updateUser(UserAccount authUser, UserAccount userAccount) {
+        if(authUser.getUserRole().equals(UserAccountRole.NORMALUSER)) {
+            return;
         }
-        UserAccount user = userRepo.findByEmail(userAccount.getEmail()).get();
+        UserAccount user = userRepo.findByUsername(userAccount.getUsername()).get();
         user.setNationality(userAccount.getNationality());
         user.setPhone(userAccount.getPhone());
         user.setAddress(userAccount.getAddress());
@@ -40,10 +38,10 @@ public class UserAccountService {
         user.setBankInfo(userAccount.getBankInfo());
         user.setCinPdfPath(userAccount.getCinPdfPath());
         user.setProfileImagePath(userAccount.getProfileImagePath());
-        user.setUsername(userAccount.getUsername());
 
         userRepo.save(user);
-        response.put("success", "successfully updated");
-        return ResponseEntity.ok(response);
+    }
+    public void deleteUserByUsername(String username) {
+        userRepo.deleteByUsername(username);
     }
 }

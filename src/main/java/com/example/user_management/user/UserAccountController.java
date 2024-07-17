@@ -21,8 +21,15 @@ public class UserAccountController {
         return userService.getUsers(userAccount);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<Map<String, String>> updateUser(@AuthenticationPrincipal UserAccount userAccount){
-        return userService.updateUser(userAccount);
+    @PostMapping("/edit")
+    public ResponseEntity<Void> updateUser(@AuthenticationPrincipal UserAccount user, @RequestBody UserAccount userAccount){
+        userService.updateUser(user, userAccount);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteUser(@RequestParam String email) {
+        userService.deleteUserByUsername(email);
+        return ResponseEntity.noContent().build();
     }
 }

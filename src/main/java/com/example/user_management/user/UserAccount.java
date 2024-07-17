@@ -22,7 +22,6 @@ public class UserAccount implements UserDetails {
     private String firstName;
     private String lastName;
     private String username;
-    private String email;
     private String phone;
     private String address;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -36,14 +35,14 @@ public class UserAccount implements UserDetails {
     private String bankInfo;
 
 
-    public UserAccount(String firstName, String lastName, String email, String password, UserAccountRole role){
+    public UserAccount(String firstName, String lastName, String username, String password, UserAccountRole role){
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
         this.password = password;
         this.userRole = role;
     }
-    public UserAccount(String firstName, String lastName, String username, String email,
+    public UserAccount(String firstName, String lastName, String username,
                        String phone, String address, String password, UserAccountRole userRole,
                        String profileImagePath, String cinPdfPath, LocalDate dateOfBirth,
                        String nationality, String bankInfo) {
@@ -51,7 +50,6 @@ public class UserAccount implements UserDetails {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.email = email;
         this.phone = phone;
         this.address = address;
         this.password = password;

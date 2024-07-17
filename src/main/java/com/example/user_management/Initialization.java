@@ -20,10 +20,9 @@ public class Initialization implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        if (userRepo.findByUsername("admin").isEmpty()) {
+        if (userRepo.findByUsername("admin@gmail.com").isEmpty()) {
             UserAccount adminUser = new UserAccount();
-            adminUser.setUsername("admin");
-            adminUser.setEmail("admin@gmail.com");
+            adminUser.setUsername("admin@gmail.com");
             adminUser.setAddress("admin address");
             adminUser.setBankInfo("admin bank info");
             adminUser.setCinPdfPath("");

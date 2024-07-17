@@ -7,8 +7,8 @@ import lombok.Getter;
 public class RegistrationRequest {
     private String firstname;
     private String lastname;
-    private String email;
+    private String username;
     private String password;
-    private String confirmPassword;
+    private String repeatPassword;
     private String role;
 }
